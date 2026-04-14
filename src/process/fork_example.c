@@ -22,10 +22,13 @@ int main(void){
     else if(pid == 0){
         //Child process
         printf("child process | PID : %d PPID : %d\n", getpid(), getppid());
+        sleep(2);
+        exit(3);
     }
     else if(pid > 0){
-        //Parent process
-        sleep(2); // parent sleeps for 2 seconds - to prevent zombie
+       //Parent process
+       // sleep(2); // parent sleeps/waits for 2 seconds - to prevent zombie
+        wait(NULL);
         printf("parent process | PID : %d Child's PPID : %d\n", getpid(), pid);
     }
 
