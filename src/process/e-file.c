@@ -7,7 +7,7 @@
 /*
  * execvp() - replaces the current process with the new process image
  * ./hello-exec -> path to be executable
- *  returns the error
+ *  returns the errors
  * */
 
 int main(void){
