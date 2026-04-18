@@ -34,7 +34,7 @@ int main(void){
     //No signals blocked during handler execution
     sigemptyset(&sa.sa_mask);
     
-    sa.sa_flags = 0 ; //Flags - Default
+    sa.sa_flags = 0;//SA_RESTART; //Flags - Default
     
     //Register handler for SIGINT
     if(sigaction(SIGINT,&sa, NULL)==-1){
@@ -97,6 +97,8 @@ int main(void){
     sleep(1);
 
     printf("\nPress ctrl + c or send TERM to %d\n", getpid());
+
+    
 
     while(1){
         sleep(1);
