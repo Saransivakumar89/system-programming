@@ -7,24 +7,34 @@
 
 int main(void){
     
-    sigset_t set;
+    pid_t pid = getpid();
+    printf("PID: %d\n", pid);
+
+    sigset_t set, new_set;
 
     sigemptyset(&set);  //Clear the mask/set so the no signals blocked during sig handler exection
 
     sigaddset(&set,SIGINT); //add the SIGINT to the set
-    
+   
     sigprocmask(SIG_BLOCK, &set , NULL); // block the set 
     
     printf("SIGINT blocked here for 5 secs\n");
 
     sleep(5);
+    
+    sigemptyset(&set);
 
-    printf("\nSIGINT unblocked...\n");
+    sigaddset(&set,SIGTERM);
+    
+    printf("SIGTERM is blocked\n");
+    
+    sigprocmask(SIG_SETMASK, &set, NULL);   //unblock the set 
+    
+     sleep(20);
 
-    sigprocmask(SIG_UNBLOCK, &set, NULL);   //unblock the set 
+    sigprocmask(SIG_UNBLOCK, &set, NULL);
 
-
-
+    printf("SIGTERM is unblocked\n");
     return 0 ;
 }
 
