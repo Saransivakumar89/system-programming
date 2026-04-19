@@ -13,6 +13,7 @@ int main(void){
     sigset_t set, new_set;
 
     sigemptyset(&set);  //Clear the mask/set so the no signals blocked during sig handler exection
+    sigemptyset(&new_set);
 
     sigaddset(&set,SIGINT); //add the SIGINT to the set
    
@@ -22,19 +23,22 @@ int main(void){
 
     sleep(5);
     
-    sigemptyset(&set);
+    //sigemptyset(&set);
 
-    sigaddset(&set,SIGTERM);
+    //sigaddset(&set,SIGTERM);
     
-    printf("SIGTERM is blocked\n");
-    
-    sigprocmask(SIG_SETMASK, &set, NULL);   //unblock the set 
-    
+   // printf("SIGTERM is blocked\n");
+
+    printf("\nSIGINT unblocked\n"); 
+    sigprocmask(SIG_SETMASK, &new_set, NULL);   //unblock the set 
+   
+#ifdef NEWMASK    
      sleep(20);
 
     sigprocmask(SIG_UNBLOCK, &set, NULL);
 
-    printf("SIGTERM is unblocked\n");
+    printf("SIGTERM unblocked\n");
+#endif
     return 0 ;
 }
 
