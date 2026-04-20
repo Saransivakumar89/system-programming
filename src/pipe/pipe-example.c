@@ -7,6 +7,7 @@ int main(void){
     
     int fd[2];
     char buff[100];
+    int arr[5] = {1,4,23,67, 89};
     pipe(fd);       //pipe creation
 
     pid_t pid = fork();
@@ -21,7 +22,9 @@ int main(void){
         
         char * msg = "Hello from parent";
         
-        write(fd[1], msg, strlen(msg)+1);
+       // write(fd[1], msg, strlen(msg)+1);
+
+        write(fd[1], arr, sizeof(arr));
 
         close(fd[1]);
     }
@@ -31,7 +34,12 @@ int main(void){
         
         read(fd[0], buff, sizeof(buff));
 
-        printf("Child : %s\n", buff);
+        for(int i = 0 ; i < 5 ; i++){
+            printf("%d ", arr[i]);
+        }
+        printf("\n");
+
+        //printf("Child : %s\n", buff);
 
         close(fd[0]);   
     }
