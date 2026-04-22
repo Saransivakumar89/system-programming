@@ -21,8 +21,13 @@ void sig_handler(int sig){  //Custom handler
         printf("\nCaught SIGCHLD");
     }else if(sig == SIGALRM){
         printf("\nCaught SIGALRM");
+    }else if(sig == SIGSEGV){
+        printf("\nCaught SIGSEGV");
+        siglongjmp(env,1);
+    }else if(sig == SIGPIPE){
+        printf("\nCaught SIGPIPE");
     }
-
+    
 }
 
 int main(void){
@@ -65,6 +70,17 @@ int main(void){
         perror("sigaction");
         return -1;
     }
+
+    //Register handler for SIGSEGV
+    if(sigaction(SIGSEGV,&sa, NULL)==-1){
+        perror("sigaction");
+        return -1;
+    }
+
+    if(sigaction(SIGPIPE,&sa,NULL)==-1){
+        perror("sigaction");
+        return -1;
+    }
     
 
     sleep(1);
@@ -94,6 +110,24 @@ int main(void){
 
     alarm(2);   //timer for 2 secs
     
+    sleep(1);
+    
+    if(sigsetjmp(env,1)==0){
+    int * p = NULL;
+
+    *p = 10;
+    }
+
+    sleep(1);
+
+    int fd[2];
+
+    pipe(fd);
+
+    close(fd[0]);
+
+    write(fd[1],"HI",2);
+
     sleep(1);
 
     printf("\nPress ctrl + c or send TERM to %d\n", getpid());
