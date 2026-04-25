@@ -3,17 +3,20 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/select.h>
+#include <sys/time.h>   // FIX: needed for gettimeofday
 
 int main(void) {
     fd_set readfds;
     int fd1[2], fd2[2];
     char buff[100];
+    struct timeval tv, start, end;
 
     if (pipe(fd1) < 0 || pipe(fd2) < 0) {
         perror("pipe");
         exit(1);
     }
 
+    // Child 1 
     if (fork() == 0) {
         close(fd1[0]);
         close(fd2[0]);
@@ -26,6 +29,7 @@ int main(void) {
         }
     }
 
+    // Child 2 
     if (fork() == 0) {
         close(fd2[0]);
         close(fd1[0]);
@@ -38,6 +42,7 @@ int main(void) {
         }
     }
 
+    // Parent
     close(fd1[1]);
     close(fd2[1]);
 
@@ -48,11 +53,34 @@ int main(void) {
         FD_SET(fd2[0], &readfds);
 
         int maxfd = fd1[0] > fd2[0] ? fd1[0] : fd2[0];
+        if (STDIN_FILENO > maxfd)
+            maxfd = STDIN_FILENO;
 
-        int ret = select(maxfd + 1, &readfds, NULL, NULL, NULL);
+        tv.tv_sec = 5;
+        tv.tv_usec = 0;
+
+        printf("Waiting for input (pipes/stdin)...\n");
+
+        gettimeofday(&start, NULL);
+
+        int ret = select(maxfd + 1, &readfds, NULL, NULL, &tv);
+
+        gettimeofday(&end, NULL);
+
+        double elapsed =
+            (end.tv_sec - start.tv_sec) +
+            (end.tv_usec - start.tv_usec) / 1000000.0;
+
+        printf("Elapsed time: %.3f seconds\n", elapsed); // FIX
+
         if (ret < 0) {
             perror("select");
             exit(1);
+        }
+
+        if (ret == 0) {
+            printf("Timeout occurred\n");
+            continue;
         }
 
         if (FD_ISSET(STDIN_FILENO, &readfds)) {
@@ -78,6 +106,8 @@ int main(void) {
                 write(STDOUT_FILENO, buff, n);
             }
         }
+
+        printf("\n");
     }
 
     return 0;
