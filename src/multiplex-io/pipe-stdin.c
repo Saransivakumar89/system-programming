@@ -25,7 +25,7 @@ int main(void) {
         while (1) {
             const char *msg = "PING\n";
             write(fd1[1], msg, strlen(msg));
-            sleep(3);
+            sleep(2);
         }
     }
 
@@ -38,7 +38,7 @@ int main(void) {
         while (1) {
             const char *msg = "PONG\n";
             write(fd2[1], msg, strlen(msg));
-            sleep(3);
+            sleep(8);
         }
     }
 
