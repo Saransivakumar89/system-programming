@@ -10,7 +10,7 @@ int main(void){
         return -1;
     }
 
-    ptr[0] = 43;
+    ptr[0] = 4;
 
     printf("*ptr = %d\n", *ptr);
 
