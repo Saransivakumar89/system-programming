@@ -4,7 +4,10 @@
 #include<pthread.h>
 
 void *task(void * arg){
-    printf("Thread\n");
+    while(1){
+        printf("Thread running...\n");
+        sleep(2);   
+    }
 }
 
 int main(void){
