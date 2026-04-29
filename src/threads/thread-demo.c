@@ -12,6 +12,7 @@ void *task(void * arg){
         printf("Thread-1 running...\n");
         sleep(2);   
     }
+    return NULL;
 }
 
 void *new_task(void *arg){
@@ -19,6 +20,7 @@ void *new_task(void *arg){
         printf("Thread-2 running...\n");
         sleep(2);
     }
+    return NULL;
 }
 
 int main(void){
