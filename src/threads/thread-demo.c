@@ -5,6 +5,9 @@
 
 /* 
  * output-interleave will happen because there is no synchronization
+ *
+ *  t1 -> t2 -> t1 -> t2 -> t1
+ *
  */
 
 void *task(void * arg){
