@@ -26,6 +26,9 @@ void * task(void *arg){
 
 int main(void){
     
+    pid_t pid = getpid();
+    printf("PID  : %d\n", pid);
+    sleep(2);
     pthread_t t1, t2, t3;
 
     int id1 = 1, id2 = 2 , id3 = 3;
