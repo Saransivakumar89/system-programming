@@ -4,19 +4,33 @@
 #include<string.h>
 #include<pthread.h>
 
+typedef struct {
+    int id;
+    int start;
+    int end;
+}data_t;
+
 void *task(void *arg){
 	
-	int id = *(int *)arg;	
-	printf("Thread 1 passed : %d\n", id);
+	data_t td = *(data_t *)arg;	
+	printf("Thread %d :", td.id);
+    for(int i = td.start ; i <= td.end ; i++){
+        printf(" %d", i);
+    }
+    printf("\n");
+
 	return NULL;
 }
 
-int main(void){
-    pthread_t t1 ;
-    
-    int val = 5;
-    
-    pthread_create(&t1, NULL, task, &val);
+int main(){
+
+    data_t data;
+    data.id    = 1;
+    data.start = 1;
+    data.end   = 10;
+
+    pthread_t t1;
+    pthread_create(&t1, NULL, task, &data);
     
     pthread_join(t1, NULL);
 
