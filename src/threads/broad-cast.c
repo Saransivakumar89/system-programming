@@ -27,10 +27,10 @@ int main(void){
     pthread_t t1, t2;
 
     pthread_mutex_init(&lock, NULL);
-    pthread_cond_init(&cond, NULL);
+    //pthread_cond_init(&cond, NULL);
 
     pthread_create(&t1, NULL, worker, NULL);
-    pthread_create(&t2, NULL, worker, NULL);
+   // pthread_create(&t2, NULL, worker, NULL);
     
     pthread_mutex_lock(&lock);
     sleep(2);
@@ -39,7 +39,7 @@ int main(void){
     pthread_mutex_unlock(&lock);
 
     pthread_join(t1,NULL);
-    pthread_join(t2,NULL);
+   // pthread_join(t2,NULL);
     
     pthread_cond_destroy(&cond);
     pthread_mutex_destroy(&lock);
