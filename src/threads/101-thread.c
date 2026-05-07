@@ -5,7 +5,7 @@
 void *task_A(void * arg){
     printf("Thread 1 : A\n");
     int *x = malloc(sizeof(int));
-    *x = 12;
+    *x = 122;
     pthread_exit(x);
 }
 
