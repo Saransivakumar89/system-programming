@@ -28,6 +28,7 @@ int main(void){
     
     pid_t pid = getpid();
     printf("PID  : %d\n", pid);
+    printf("PPID : %d\n", getppid());
     sleep(2);
     pthread_t t1, t2, t3;
 
