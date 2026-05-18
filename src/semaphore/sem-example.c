@@ -16,7 +16,6 @@ void * worker(void * arg){
     printf("Exiting Critical Section\n");
 
     sem_post(&sem);
-
     pthread_exit(NULL);
 }
 
