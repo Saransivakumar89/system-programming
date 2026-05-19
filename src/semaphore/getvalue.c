@@ -13,7 +13,8 @@ void *worker(void *arg)
     sem_wait(&sem);
 
     sem_getvalue(&sem, &val);
-    printf("Entered critical section : %d\n", val);
+    printf("Entered critical section : %d\n", 
+            val);
 
     sleep(3);
 
@@ -21,7 +22,8 @@ void *worker(void *arg)
     sem_post(&sem);
 
     sem_getvalue(&sem, &val);
-    printf("Exited critical section : %d\n", val);
+    printf("Exited critical section : %d\n", 
+            val);
 
     pthread_exit(NULL);
 }
