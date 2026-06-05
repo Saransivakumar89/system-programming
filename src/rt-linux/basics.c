@@ -7,7 +7,13 @@
 
 int main(void){
     
+#ifdef NOT
+    struct sched_param param;
 
+    param.sched_priority = 50; /* Mid-range RT priority*/
+
+    sched_setscheduler(0, SCHED_FIFO, &param);
+#endif
     int policy = sched_getscheduler(0);
 
     switch(policy){
